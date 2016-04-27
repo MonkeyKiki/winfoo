@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.orange.upro.winfoo.web.pgm;
 
 import org.springframework.stereotype.Component;
@@ -17,11 +12,11 @@ import org.springframework.validation.Validator;
 public class PgmFileValidator implements Validator {
 
     public boolean supports(Class<?> clazz) {
-        return PgmFile.class.isAssignableFrom(clazz);
+        return PgmFileForm.class.isAssignableFrom(clazz);
     }
 
     public void validate(Object obj, Errors errors) {
-        PgmFile file = (PgmFile) obj;
+        PgmFileForm file = (PgmFileForm) obj;
 
         if (file.getFile() != null) {
             if (file.getFile().getSize() == 0) {

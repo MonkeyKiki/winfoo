@@ -28,6 +28,12 @@ public class PgmManagerImpl implements PgmManager {
 		pgmDAO.deletePgm(pgm);
 	}
 
+	@Transactional
+	@Override
+	public void deleteAllPgms() {
+		pgmDAO.deleteAllPgms();
+	}
+
 	@Override
 	public List<Pgm> findAllPgms() {
 		return pgmDAO.findAllPgms();
@@ -37,5 +43,6 @@ public class PgmManagerImpl implements PgmManager {
 	public Pgm findPgm(int id) {
 		return pgmDAO.findPgm(id);
 	}
+
 
 }

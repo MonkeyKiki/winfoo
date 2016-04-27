@@ -1,6 +1,7 @@
 package com.orange.upro.winfoo.web.pgm;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 import javax.validation.Valid;
@@ -8,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -21,6 +23,8 @@ import com.orange.upro.winfoo.model.Pgm;
 @Controller
 @RequestMapping("/")
 public class PgmFileController {
+	
+	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
 
 	@Autowired
 	PgmFileValidator fileValidator;
@@ -28,37 +32,38 @@ public class PgmFileController {
 	@Autowired
 	PgmManager pgmManager;
 
-	@InitBinder("pgmFile")
+	@InitBinder("pgmFileForm")
 	protected void initBinderFileBucket(WebDataBinder binder) {
 		binder.setValidator(fileValidator);
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
-	public String sayHello(ModelMap model) {
-		model.addAttribute("greeting", "Hello World from Spring 4 MVC");
-		return "welcome";
-	}
-
 	@RequestMapping(value = "/upload", method = RequestMethod.GET)
 	public String getUploadPage(ModelMap model) {
-		PgmFile fileModel = new PgmFile();
-		model.addAttribute("pgmFile", fileModel);
+		PgmFileForm fileModel = new PgmFileForm();
+		model.addAttribute("pgmFileForm", fileModel);
 		return "fileUploader";
 	}
 
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public String fileUpload(@Valid PgmFile pgmFile, BindingResult result, ModelMap model) throws IOException {
+	public String fileUpload(@Valid PgmFileForm pgmFileForm, BindingResult result, ModelMap model) throws IOException {
 
 		if (result.hasErrors()) {
-			System.out.println("validation errors");
 			return "fileUploader";
 		} else {
-			MultipartFile multipartFile = pgmFile.getFile();
+			if (pgmFileForm.isPurgeData()) {
+				pgmManager.deleteAllPgms();
+			}
+			
+			MultipartFile multipartFile = pgmFileForm.getFile();
 
 			Scanner scanner = new Scanner(multipartFile.getInputStream(), "ISO-8859-1");
 			scanner.useDelimiter("\r\n");
-			// On ignore les headers
-			String line = scanner.next();
+			String line;
+			StringBuilder errors = new StringBuilder();
+			if (pgmFileForm.isPresenceEntetes()) {
+				// On ignore les headers
+				scanner.next();
+			}
 			int numLigne = 1;
 			while (scanner.hasNext()) {
 				line = scanner.next();
@@ -66,38 +71,54 @@ public class PgmFileController {
 				// On ignore le lignes vides
 				if (!line.matches(";+")) {
 					String cells[] = line.split(";", -1);
-					// System.out.println(cells.length);
-					// System.out.println(line);
 
 					try {
 						Pgm pgmCourant = new Pgm();
-						pgmCourant.setAnneeDemande(Integer.parseInt(cells[1]));
-						// pgmCourant.setDateEchangeDoDmgp(cells[2]);
+						if (StringUtils.hasText(cells[1])) {
+							pgmCourant.setAnneeDemande(Integer.parseInt(cells[1]));
+						}
+						if (StringUtils.hasText(cells[2])) {
+							pgmCourant.setDateEchangeDoDmgp(DATE_FORMAT.parse(cells[2]));
+						}
 						pgmCourant.setDo_(cells[3]);
 						pgmCourant.setDr(cells[4]);
-						pgmCourant.setDpt(Integer.parseInt(cells[5]));
+						if (StringUtils.hasText(cells[5])) {
+							pgmCourant.setDpt(Integer.parseInt(cells[5]));
+						}
 						pgmCourant.setVillesFtth(cells[6]);
 						pgmCourant.setDeployeur(cells[7]);
 						pgmCourant.setZone(cells[8]);
 						pgmCourant.setLotsDeployes(cells[9]);
-						// pgmCourant.setPrevisionDatePublication(cells[10]);
-						// pgmCourant.setRepublication(cells[11]);
+						if (StringUtils.hasText(cells[10])) {
+							pgmCourant.setPrevisionDatePublication(DATE_FORMAT.parse(cells[10]));
+						}
+						if (StringUtils.hasText(cells[11])) {
+							pgmCourant.setRepublication(DATE_FORMAT.parse(cells[11]));
+						}
 						pgmCourant.setNraImpactes(cells[12]);
 						pgmCourant.setNroImpactes(cells[13]);
 						pgmCourant.setMiseEnService1Olt(cells[14]);
-						pgmCourant.setZmLot(Integer.parseInt(cells[15]));
-						pgmCourant.setLotPublie(Integer.parseInt(cells[16]));
-						pgmCourant.setPrevRaccordableDooDonc(Integer.parseInt(cells[17]));
+						if (StringUtils.hasText(cells[15])) {
+							pgmCourant.setZmLot(Integer.parseInt(cells[15]));
+						}
+						if (StringUtils.hasText(cells[16])) {
+							pgmCourant.setLotPublie(Integer.parseInt(cells[16]));
+						}
+						pgmCourant.setPrevRaccordableDooDonc(cells[17]);
 						pgmCourant.setPriorite(cells[18]);
 						pgmCourant.setOlt(cells[19]);
-						pgmCourant.setEtude(Integer.parseInt(cells[20]));
-						pgmCourant.setExtensionOlt(Integer.parseInt(cells[21]));
+						if (StringUtils.hasText(cells[20])) {
+							pgmCourant.setEtude(Integer.parseInt(cells[20]));
+						}
+						if (StringUtils.hasText(cells[21])) {
+							pgmCourant.setExtensionOlt(Integer.parseInt(cells[21]));
+						}
 						pgmCourant.setLogement(cells[22]);
 
 						pgmManager.insertPgm(pgmCourant);
 					} catch (Exception e) {
-						System.err.println("Erreur lors de la lecture de ligne " + numLigne + " : " + e.getMessage());
-						// e.printStackTrace();
+						errors.append(numLigne + " : " + e.getClass() + "-" + e.getMessage() + "<BR/>");
+						e.printStackTrace();
 					}
 				}
 			}
@@ -105,6 +126,7 @@ public class PgmFileController {
 
 			String fileName = multipartFile.getOriginalFilename();
 			model.addAttribute("fileName", fileName);
+			model.addAttribute("errors", errors.toString());
 			return "success";
 		}
 	}

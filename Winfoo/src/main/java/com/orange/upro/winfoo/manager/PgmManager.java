@@ -10,6 +10,8 @@ public interface PgmManager {
 	
 	void deletePgm(int id);
 
+	void deleteAllPgms();
+
 	List<Pgm> findAllPgms();
 
 	Pgm findPgm(int id);

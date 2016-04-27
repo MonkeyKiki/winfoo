@@ -26,6 +26,11 @@ public class PgmDAOImpl implements PgmDAO {
 	}
 
 	@Override
+	public void deleteAllPgms() {
+		entityManager.createNamedQuery("Pgm.deleteAll").executeUpdate();
+	}
+
+	@Override
 	public List<Pgm> findAllPgms() {
 		return entityManager.createNamedQuery("Pgm.findAll", Pgm.class).getResultList();
 	}

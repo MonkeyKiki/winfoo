@@ -5,15 +5,16 @@
 
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-        <title>Spring 4 MVC File Upload Example</title>
+        <title>Upload fichier PGM</title>
     </head>
     <body> 
-        <form:form method="POST" modelAttribute="pgmFile" enctype="multipart/form-data">
-            <label for="file">Upload a file</label>
-            <form:input type="file" path="file" id="file"/>
-            <form:errors path="file"/>
-            <input type="submit" value="Upload">
+        <form:form method="POST" modelAttribute="pgmFileForm" enctype="multipart/form-data">
+            <label for="file">Chargement d'un fichier PGM csv</label><br/>
+            <form:input type="file" path="file" id="file"/><br/>
+            <form:errors path="file" cssStyle="color: red;"/><br/><br/>
+            <input type="submit" value="Upload"><br/><br/>
+			<form:checkbox path="presenceEntetes"/>Présence d'entêtes dans le fichier ?<br/>
+			<form:checkbox path="purgeData"/>Supprimer les données en base ?<br/>
         </form:form>
-        <a href="<c:url value='/' />">Home</a>
     </body>
 </html>

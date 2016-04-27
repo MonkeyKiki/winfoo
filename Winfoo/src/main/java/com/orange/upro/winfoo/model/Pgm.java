@@ -1,9 +1,17 @@
 package com.orange.upro.winfoo.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
-import java.sql.Timestamp;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 /**
@@ -11,7 +19,10 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@NamedQuery(name="Pgm.findAll", query="SELECT p FROM Pgm p")
+@NamedQueries({
+	@NamedQuery(name="Pgm.findAll", query="SELECT p FROM Pgm p"),
+	@NamedQuery(name="Pgm.deleteAll", query="DELETE FROM Pgm p")
+})
 public class Pgm implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -60,14 +71,14 @@ public class Pgm implements Serializable {
 	private String olt;
 
 	@Column(name="PREV_RACCORDABLE_DOO_DONC")
-	private int prevRaccordableDooDonc;
+	private String prevRaccordableDooDonc;
 
 	@Column(name="PREVISION_DATE_PUBLICATION")
-	private Timestamp previsionDatePublication;
+	private Date previsionDatePublication;
 
 	private String priorite;
 
-	private Timestamp republication;
+	private Date republication;
 
 	@Column(name="VILLES_FTTH")
 	private String villesFtth;
@@ -208,19 +219,19 @@ public class Pgm implements Serializable {
 		this.olt = olt;
 	}
 
-	public int getPrevRaccordableDooDonc() {
+	public String getPrevRaccordableDooDonc() {
 		return this.prevRaccordableDooDonc;
 	}
 
-	public void setPrevRaccordableDooDonc(int prevRaccordableDooDonc) {
+	public void setPrevRaccordableDooDonc(String prevRaccordableDooDonc) {
 		this.prevRaccordableDooDonc = prevRaccordableDooDonc;
 	}
 
-	public Timestamp getPrevisionDatePublication() {
+	public Date getPrevisionDatePublication() {
 		return this.previsionDatePublication;
 	}
 
-	public void setPrevisionDatePublication(Timestamp previsionDatePublication) {
+	public void setPrevisionDatePublication(Date previsionDatePublication) {
 		this.previsionDatePublication = previsionDatePublication;
 	}
 
@@ -232,11 +243,11 @@ public class Pgm implements Serializable {
 		this.priorite = priorite;
 	}
 
-	public Timestamp getRepublication() {
+	public Date getRepublication() {
 		return this.republication;
 	}
 
-	public void setRepublication(Timestamp republication) {
+	public void setRepublication(Date republication) {
 		this.republication = republication;
 	}
 

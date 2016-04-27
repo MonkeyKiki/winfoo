@@ -10,6 +10,8 @@ public interface PgmDAO {
 
 	void deletePgm(Pgm pgm);
 
+	void deleteAllPgms();
+
 	List<Pgm> findAllPgms();
 
 	Pgm findPgm(int id);

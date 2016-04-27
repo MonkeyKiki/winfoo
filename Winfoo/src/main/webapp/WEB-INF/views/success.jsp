@@ -2,11 +2,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head>
-        <title>File Upload Success</title>
+        <title>Upload OK</title>
     </head>
     <body>
-        File  <strong>${fileName}</strong> uploaded successfully.
+        Fichier  <strong>${fileName}</strong> chargé avec succés.
         <br/><br/>
-        <a href="<c:url value='/' />">Home</a> 
+        Liste des erreurs:<br/><br/>
+        ${errors}
+        <a href="<c:url value='/upload' />">Retour</a> 
     </body>
 </html>
