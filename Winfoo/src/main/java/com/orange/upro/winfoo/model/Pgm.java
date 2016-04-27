@@ -33,7 +33,7 @@ public class Pgm implements Serializable {
 	@Column(name="ANNEE_DEMANDE")
 	private int anneeDemande;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@Column(name="DATE_ECHANGE_DO_DMGP")
 	private Date dateEchangeDoDmgp;
 
@@ -73,11 +73,13 @@ public class Pgm implements Serializable {
 	@Column(name="PREV_RACCORDABLE_DOO_DONC")
 	private String prevRaccordableDooDonc;
 
+	@Temporal(TemporalType.DATE)
 	@Column(name="PREVISION_DATE_PUBLICATION")
 	private Date previsionDatePublication;
 
 	private String priorite;
 
+	@Temporal(TemporalType.DATE)
 	private Date republication;
 
 	@Column(name="VILLES_FTTH")

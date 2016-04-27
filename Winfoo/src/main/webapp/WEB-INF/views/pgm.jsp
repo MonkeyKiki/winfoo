@@ -53,37 +53,40 @@ div.jtable-main-container table.jtable thead th.jtable-column-header div.jtable-
                     title: 'Année demande DO/DMGP'
                 },
                 dateEchangeDoDmgp: {
-                	title: 'DATE ECHANGE DO/DMGP'
-                },
-               	deployeur: {
-                	title: 'Déployeur'
+                	title: 'DATE ECHANGE DO/DMGP',
+                	type: 'date',
+                	displayFormat: 'dd/mm/yy'
                 },
                	do_: {
                 	title: 'DO'
                 },
-               	dpt: {
-                	title: 'DPT'
-                },
                	dr: {
                 	title: 'DR'
                 },
-               	etude: {
-                	title: 'ETUDE NRO'
+               	dpt: {
+                	title: 'DPT'
                 },
-               	extensionOlt: {
-                	title: 'Extension OLT'
+               	villesFtth: {
+                	title: 'Villes FTTH'
                 },
-               	logement: {
-                	title: 'LOGEMENT'
+               	deployeur: {
+                	title: 'Déployeur'
                 },
-               	lotPublie: {
-                	title: 'Lot publié'
+               	zone: {
+                	title: 'Zone'
                 },
                	lotsDeployes: {
                 	title: 'Lots déployés'
                 },
-               	miseEnService1Olt: {
-                	title: 'Mise en service du 1er OLT'
+               	previsionDatePublication: {
+                	title: 'Prévision Date publication du lot<br/>Vert fluo = publié',
+                    type: 'date',
+                	displayFormat: 'dd/mm/yy'
+                },
+               	republication: {
+                	title: 'REPUBLICATION',
+                    type: 'date',
+                	displayFormat: 'dd/mm/yy'
                 },
                	nraImpactes: {
                 	title: 'NRA IMPACTES<br/>barré : non déployé cause budget'
@@ -91,29 +94,60 @@ div.jtable-main-container table.jtable thead th.jtable-column-header div.jtable-
                	nroImpactes: {
                 	title: 'NRO IMPACTES'
                 },
-               	olt: {
-                	title: 'OLT'
+               	miseEnService1Olt: {
+                	title: 'Mise en service du 1er OLT'
+                },
+               	zmLot: {
+                	title: 'ZM Lot',
+                	display: function (data) {
+                		if (data.record.zmLot == '0') {
+                			return "<label style='color:red;'>" + data.record.zmLot + "</label>";
+                		} else {
+                			return "<label style='color:green;'>" + data.record.zmLot + "</label>";
+                		}
+                    }
+                },
+               	lotPublie: {
+                	title: 'Lot publié',
+                	display: function (data) {
+                		if (data.record.lotPublie == '0') {
+                			return "<label style='color:red;'>" + data.record.lotPublie + "</label>";
+                		} else {
+                			return "<label style='color:green;'>" + data.record.lotPublie + "</label>";
+                		}
+                    }
                 },
                	prevRaccordableDooDonc: {
                 	title: 'prev raccordable DOO-DONC'
                 },
-               	previsionDatePublication: {
-                	title: 'Prévision Date publication du lot<br/>Vert fluo = publié'
-                },
                	priorite: {
                 	title: 'Priorite'
                 },
-               	republication: {
-                	title: 'REPUBLICATION'
+               	olt: {
+                	title: 'OLT'
                 },
-               	villesFtth: {
-                	title: 'Villes FTTH'
+                etude: {
+                	title: 'ETUDE NRO',
+                	display: function (data) {
+                		if (data.record.etude == '0') {
+                			return "<label style='color:red;'>" + data.record.etude + "</label>";
+                		} else {
+                			return "<label style='color:green;'>" + data.record.etude + "</label>";
+                		}
+                    }
                 },
-               	zmLot: {
-                	title: 'ZM Lot'
+               	extensionOlt: {
+                	title: 'Extension OLT',
+                	display: function (data) {
+                		if (data.record.extensionOlt == '0') {
+                			return "<label style='color:red;'>" + data.record.extensionOlt + "</label>";
+                		} else {
+                			return "<label style='color:green;'>" + data.record.extensionOlt + "</label>";
+                		}
+                    }
                 },
-               	zone: {
-                	title: 'Zone'
+               	logement: {
+                	title: 'LOGEMENT'
                 }
             }
         });

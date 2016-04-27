@@ -46,10 +46,10 @@ public class PgmService {
 		return Response.status(200).entity(response).build();
 	}
 
-	@POST
-	@Path("/create")
-	@Produces("application/json")
-	public Response createPgm(@FormParam("anneeDemande") Integer anneeDemande) {
+//	@POST
+//	@Path("/create")
+//	@Produces("application/json")
+//	public Response createPgm(@FormParam("anneeDemande") Integer anneeDemande) {
 //		Pgm pgm = new Pgm();
 //		pgm.setAnneeDemande(anneeDemande);
 //		
@@ -58,13 +58,13 @@ public class PgmService {
 //		entityManager.persist(pgm);
 //		entityManager.getTransaction().commit();
 //		entityManager.close();
-		
-		PgmResponse response = new PgmResponse();
-		response.Result = "OK";
+//		
+//		PgmResponse response = new PgmResponse();
+//		response.Result = "OK";
 //		response.Record = pgm;
-
-		return Response.status(200).entity(response).build();
-	}
+//
+//		return Response.status(200).entity(response).build();
+//	}
 
 	@POST
 	@Path("/delete")
